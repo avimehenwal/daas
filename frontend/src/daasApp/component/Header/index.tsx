@@ -31,11 +31,7 @@ export const TextBase = (props: IdefaultProps) => {
 export const Header = (props: IdefaultProps) => {
   return (
     <header>
-      <TextBase {...props}>
-        <p>
-          <Button variant="primary">Learn more</Button>
-        </p>
-      </TextBase>
+      <TextBase {...props} />
     </header>
   )
 }
