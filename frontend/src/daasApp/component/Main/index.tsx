@@ -9,6 +9,8 @@ import {
   Badge,
   Alert,
   Dropdown,
+  Card,
+  CardColumns,
 } from 'react-bootstrap';
 
 
@@ -16,8 +18,10 @@ export const Main = () => {
   const [results, setResults] = useState<ICloudItem[]>([])
   const [filter, setFilter] = useState<ICloudItem[]>(results)
   const [regions, setRegions] = useState<string[]>([])
+  const [providers, setProviders] = useState<string[]>([])
   const searchBox = useRef<HTMLInputElement>(null)
   const [currentRegionFilter, setCurrentRegionFilter] = useState<string>('')
+  const [currentProviderFilter, setCurrentProviderFilter] = useState<string>('')
 
   const nwCall = async () => {
     const results = await getClouds()
@@ -30,7 +34,7 @@ export const Main = () => {
     const searchTerm = e.target.value
     const pattern = new RegExp(searchTerm, 'i');
     // console.log(searchTerm)
-    setFilter(results.filter(item => {
+    setFilter(filter.filter(item => {
       if (pattern.test(item.cloud_description) || pattern.test(item.cloud_name)) {
         return item
       } else {
@@ -40,17 +44,27 @@ export const Main = () => {
   }
 
   const filterByRegion = (region: string) => {
-    // console.log(region);
     setFilter(results.filter(item => {
-      if (item.geo_region == region) {
+      if (item.geo_region === region) {
         return item
       } else { return null }
     }))
     setCurrentRegionFilter(region)
   }
 
+  const filterByProvider = (provider: string) => {
+    setFilter(results.filter(item => {
+      if (item.cloud_name.split('-')[0] === provider) {
+        return item
+      } else { return null }
+    }))
+    setCurrentProviderFilter(provider)
+  }
+
+
   const clearSearch = () => {
     setCurrentRegionFilter('')
+    setCurrentProviderFilter('')
     if (searchBox && searchBox.current) {
       setFilter(results)
       searchBox.current.value = ""
@@ -61,8 +75,9 @@ export const Main = () => {
     nwCall()
   }, [])
 
-  // unique region list
+
   useEffect(() => {
+    // unique region list
     setRegions(results.reduce((accumulator: string[], item) => {
       const key = item.geo_region
       if (accumulator.indexOf(key) === -1) {
@@ -70,6 +85,15 @@ export const Main = () => {
       }
       return accumulator
     }, []));
+
+    // unique cloud providers
+    setProviders(results.reduce((acc: string[], item) => {
+      let first = item.cloud_name.split('-')[0]
+      if (acc.indexOf(first) === -1) {
+        acc.push(first)
+      }
+      return acc
+    }, []))
   }, [results])
 
   return (
@@ -92,31 +116,55 @@ export const Main = () => {
                 onChange={filterResults}
               />
             </Col>
-            <Col md={1}>
-              <Button onClick={clearSearch} variant="outline-primary">clear</Button>
+            <Col md={2}>
+              <Button onClick={clearSearch} variant="outline-danger">reset all filters</Button>
             </Col>
 
           </Row>
 
           <br></br>
-          <Dropdown>
-            <Dropdown.Toggle variant="secondary">
-              <Badge variant="primary">{regions.length}</Badge> Filter byRegions: <strong>{currentRegionFilter}</strong>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              {regions.map(item => (
-                <Dropdown.Item key={item} onClick={() => filterByRegion(item)}>{item}</Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
+
+          <Row>
+            <Col md={3}>
+              <Dropdown>
+                <Dropdown.Toggle variant="outline-secondary">
+                  <Badge variant="primary">{regions.length}</Badge> Filter byRegions: <strong>{currentRegionFilter}</strong>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {regions.map(item => (
+                    <Dropdown.Item key={item} onClick={() => filterByRegion(item)}>{item}</Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+
+            <Col md={3}>
+              <Dropdown>
+                <Dropdown.Toggle variant="outline-secondary">
+                  <Badge variant="primary">{providers.length}</Badge> Filter byCloudProviders: <strong>{currentProviderFilter}</strong>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {providers.map(item => (
+                    <Dropdown.Item key={item} onClick={() => filterByProvider(item)}>{item}</Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+
         </Alert>
 
 
-        {/* <pre>{JSON.stringify(regions, null, 4)}</pre> */}
+        {/* <pre>{JSON.stringify(providers, null, 4)}</pre> */}
 
-        {filter.map((item) => (
-          <DataCard key={item.cloud_name} {...item} />
-        ))}
+
+        <Container fluid={true}>
+          <Row noGutters={false}>
+            {filter.map((item) => (
+              <DataCard key={item.cloud_name} {...item} />
+            ))}
+          </Row>
+        </Container>
 
       </main>
     </Container >

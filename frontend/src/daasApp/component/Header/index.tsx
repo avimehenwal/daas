@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import {
   Row,
-  Button,
   Container,
   Jumbotron,
 } from 'react-bootstrap';
@@ -16,7 +15,7 @@ export const TextBase = (props: IdefaultProps) => {
   return (
     <header>
       <Container>
-        <Row className="center">
+        <Row className="justify-content-md-center center">
           <Jumbotron >
             {(props.title) && <h1>{props.title}</h1>}
             {(props.text) && <p>{props.text}</p>}
