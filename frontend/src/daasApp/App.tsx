@@ -1,13 +1,16 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Header, Footer } from './component/Header'
+import { Main } from './component/Main'
 
 function App() {
   return (
-    <div className="App">
-      <p>
-        Some App
-      </p>
-    </div>
+    <>
+      <Header title="DaaS" text="Database as a Service webapp" />
+      <Main />
+      <Footer />
+    </>
   );
 }
 
