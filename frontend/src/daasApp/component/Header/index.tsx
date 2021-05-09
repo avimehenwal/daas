@@ -6,13 +6,13 @@ import {
   Jumbotron,
 } from 'react-bootstrap';
 
-interface deafultProps {
+interface IdefaultProps {
   title?: string,
   text: string,
   children?: ReactElement<any>,
 }
 
-export const TextBase = (props: deafultProps) => {
+export const TextBase = (props: IdefaultProps) => {
   return (
     <header>
       <Container>
@@ -28,7 +28,7 @@ export const TextBase = (props: deafultProps) => {
   )
 }
 
-export const Header = (props: deafultProps) => {
+export const Header = (props: IdefaultProps) => {
   return (
     <header>
       <TextBase {...props}>
