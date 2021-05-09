@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const instance = axios.create({
   baseURL: 'https://api.aiven.io/v1',
-  timeout: 1000,
+  timeout: 2000,
   headers: {
     'Content-Type': 'application/json'
   }

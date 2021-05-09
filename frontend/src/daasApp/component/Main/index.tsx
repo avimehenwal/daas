@@ -8,6 +8,7 @@ import {
   Container,
   Badge,
   Alert,
+  Dropdown,
 } from 'react-bootstrap';
 
 
@@ -16,6 +17,7 @@ export const Main = () => {
   const [filter, setFilter] = useState<ICloudItem[]>(results)
   const [regions, setRegions] = useState<string[]>([])
   const searchBox = useRef<HTMLInputElement>(null)
+  const [currentRegionFilter, setCurrentRegionFilter] = useState<string>('')
 
   const nwCall = async () => {
     const results = await getClouds()
@@ -23,6 +25,7 @@ export const Main = () => {
     setFilter(results)
   }
 
+  // full text search
   const filterResults: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const searchTerm = e.target.value
     const pattern = new RegExp(searchTerm, 'i');
@@ -36,7 +39,18 @@ export const Main = () => {
     }))
   }
 
+  const filterByRegion = (region: string) => {
+    // console.log(region);
+    setFilter(results.filter(item => {
+      if (item.geo_region == region) {
+        return item
+      } else { return null }
+    }))
+    setCurrentRegionFilter(region)
+  }
+
   const clearSearch = () => {
+    setCurrentRegionFilter('')
     if (searchBox && searchBox.current) {
       setFilter(results)
       searchBox.current.value = ""
@@ -45,7 +59,10 @@ export const Main = () => {
 
   useEffect(() => {
     nwCall()
-    // unique region list
+  }, [])
+
+  // unique region list
+  useEffect(() => {
     setRegions(results.reduce((accumulator: string[], item) => {
       const key = item.geo_region
       if (accumulator.indexOf(key) === -1) {
@@ -53,14 +70,16 @@ export const Main = () => {
       }
       return accumulator
     }, []));
-  }, [])
+  }, [results])
 
   return (
     <Container>
       <main>
 
         <Alert variant="secondary">
-          Number of results: <Badge variant="primary">{filter.length}</Badge>{' '}
+          Number of results: <Badge variant="primary">{filter.length}</Badge>
+
+
           <br /><br></br>
           <Row>
             <Col md={10}>
@@ -76,10 +95,24 @@ export const Main = () => {
             <Col md={1}>
               <Button onClick={clearSearch} variant="outline-primary">clear</Button>
             </Col>
+
           </Row>
+
+          <br></br>
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary">
+              <Badge variant="primary">{regions.length}</Badge> Filter byRegions: <strong>{currentRegionFilter}</strong>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {regions.map(item => (
+                <Dropdown.Item key={item} onClick={() => filterByRegion(item)}>{item}</Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </Alert>
 
-        <pre>{JSON.stringify(regions, null, 4)}</pre>
+
+        {/* <pre>{JSON.stringify(regions, null, 4)}</pre> */}
 
         {filter.map((item) => (
           <DataCard key={item.cloud_name} {...item} />
