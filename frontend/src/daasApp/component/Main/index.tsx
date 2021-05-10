@@ -9,8 +9,6 @@ import {
   Badge,
   Alert,
   Dropdown,
-  Card,
-  CardColumns,
 } from 'react-bootstrap';
 
 
@@ -61,7 +59,6 @@ export const Main = () => {
     setCurrentProviderFilter(provider)
   }
 
-
   const clearSearch = () => {
     setCurrentRegionFilter('')
     setCurrentProviderFilter('')
@@ -71,10 +68,10 @@ export const Main = () => {
     }
   }
 
+  // only once when component mounts
   useEffect(() => {
     nwCall()
   }, [])
-
 
   useEffect(() => {
     // unique region list
@@ -96,14 +93,12 @@ export const Main = () => {
     }, []))
   }, [results])
 
+
   return (
     <Container>
       <main>
-
         <Alert variant="secondary">
           Number of results: <Badge variant="primary">{filter.length}</Badge>
-
-
           <br /><br></br>
           <Row>
             <Col md={10}>
@@ -119,11 +114,9 @@ export const Main = () => {
             <Col md={2}>
               <Button onClick={clearSearch} variant="outline-danger">reset all filters</Button>
             </Col>
-
           </Row>
 
           <br></br>
-
           <Row>
             <Col md={3}>
               <Dropdown>
@@ -154,9 +147,7 @@ export const Main = () => {
 
         </Alert>
 
-
         {/* <pre>{JSON.stringify(providers, null, 4)}</pre> */}
-
 
         <Container fluid={true}>
           <Row noGutters={false}>

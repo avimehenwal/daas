@@ -17,6 +17,7 @@
         "localization",
         "release",
         "vscode",
-        "react"
+        "react",
+        "css"
     ]
 }

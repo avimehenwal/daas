@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import {
-  Row,
+  Row, Col,
   Container,
   Jumbotron,
 } from 'react-bootstrap';
@@ -15,12 +15,14 @@ export const TextBase = (props: IdefaultProps) => {
   return (
     <header>
       <Container>
-        <Row className="justify-content-md-center center">
-          <Jumbotron >
-            {(props.title) && <h1>{props.title}</h1>}
-            {(props.text) && <p>{props.text}</p>}
-            {(props.children) && <p>{props.children}</p>}
-          </Jumbotron>
+        <Row className="justify-content-md-center">
+          <Col md="auto">
+            <Jumbotron >
+              {(props.title) && <h1>{props.title}</h1>}
+              {(props.text) && <p>{props.text}</p>}
+              {(props.children) && <p>{props.children}</p>}
+            </Jumbotron>
+          </Col>
         </Row>
       </Container>
     </header>
@@ -37,6 +39,7 @@ export const Header = (props: IdefaultProps) => {
 
 export const Footer = () => (
   <footer>
-    <TextBase text="Built with love by avi" />
+    <br></br>
+    <TextBase text="Made with love using react by avi" />
   </footer>
 )
