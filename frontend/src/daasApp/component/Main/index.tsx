@@ -118,7 +118,7 @@ export const Main = () => {
 
           <br></br>
           <Row>
-            <Col md={3}>
+            <Col md={6}>
               <Dropdown>
                 <Dropdown.Toggle variant="outline-secondary">
                   <Badge variant="primary">{regions.length}</Badge> Filter byRegions: <strong>{currentRegionFilter}</strong>
@@ -131,7 +131,7 @@ export const Main = () => {
               </Dropdown>
             </Col>
 
-            <Col md={3}>
+            <Col md={6}>
               <Dropdown>
                 <Dropdown.Toggle variant="outline-secondary">
                   <Badge variant="primary">{providers.length}</Badge> Filter byCloudProviders: <strong>{currentProviderFilter}</strong>

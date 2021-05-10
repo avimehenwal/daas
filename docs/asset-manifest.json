@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/daas/static/css/main.e26ec9ea.chunk.css",
-    "main.js": "/daas/static/js/main.773a104c.chunk.js",
-    "main.js.map": "/daas/static/js/main.773a104c.chunk.js.map",
+    "main.js": "/daas/static/js/main.4f6ed4cb.chunk.js",
+    "main.js.map": "/daas/static/js/main.4f6ed4cb.chunk.js.map",
     "runtime-main.js": "/daas/static/js/runtime-main.66e73115.js",
     "runtime-main.js.map": "/daas/static/js/runtime-main.66e73115.js.map",
     "static/css/2.acd75131.chunk.css": "/daas/static/css/2.acd75131.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.acd75131.chunk.css",
     "static/js/2.a6aec358.chunk.js",
     "static/css/main.e26ec9ea.chunk.css",
-    "static/js/main.773a104c.chunk.js"
+    "static/js/main.4f6ed4cb.chunk.js"
   ]
 }
